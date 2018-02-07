@@ -1,5 +1,3 @@
-require "kosapi_cli/version"
+require 'thor'
 
-module KosapiCli
-  # Your code goes here...
-end
+require 'kosapi_cli/version'
