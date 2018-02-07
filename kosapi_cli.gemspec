@@ -5,13 +5,13 @@ require "kosapi_cli/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "kosapi_cli"
-  spec.version       = KosapiCli::VERSION
+  spec.version       = KOSapiCLI::VERSION
   spec.authors       = ["Tomas Simacek"]
   spec.email         = ["simacektomas@volny.cz"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{CLI utility for querying KOSapi that can be used together with external tools in line wi    th *unix philosophy.}
+  spec.description   = %q{CLI utility for querying KOSapi that can be used together with external tools in line wi    th *unix philosophy.}
+  spec.homepage      = "https://github.com/simactom/kosapi_cli.rb"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -33,4 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+
+  spec.add_dependency "thor", "~> 0.20"
 end
