@@ -1,6 +1,6 @@
 module KOSapiCLI
   # Stores path to env_file
-  Configuration = Struct.new(:env_file) do
+  class Configuration < Struct.new(:env_file)
     DEFAULT_OPTIONS = {
       env_file: File.join(ENV['HOME'], '/.kosapi_cli.env')
     }.freeze
