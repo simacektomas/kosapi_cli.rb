@@ -1,5 +1,3 @@
-require 'thor/group'
-
 module KOSapiCLI
   module Commands
     #
@@ -19,14 +17,15 @@ module KOSapiCLI
       end
 
       def self.usage
-        'login'
+          'login [--username=username] [--password=password]'
       end
 
       def self.description
-        'desc'
+        'Creates .env file in user\'s home directory with access token.'
       end
 
       def restore_token
+        @token = KOSapiCLI.loader.restore_token
       end
 
       def credentials
