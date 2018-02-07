@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'kosapi_cli'
+
+KOSapiCLI::CLI.start(ARGV)
