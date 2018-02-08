@@ -1,19 +1,22 @@
 module KOSapiCLI
   module Commands
     module Resources
-      class Exams < Thor
-        def self.subcommand_name
-          'exams'
-        end
+      class Exams < BaseResource
+        desc 'attendees ID', 'prints students registred for the exam specified by ID'
 
-        def self.usage
-          'exams [SUBCOMMAD]'
-        end
+        long_desc <<-LONGDESC
+          The attendees command will print out message with students registred
+          for an exam. The exam is specified with compulsory parametr ID.
 
-        def self.description
-          'Represent KOSapi exams resource. It can be query for data.'
-        end
+          `kosapi_cli resource exams attendees 18633` will print out students
+          registred for exam with id 18633 if such an exam exists.
 
+          TODO example output.
+        LONGDESC
+
+        def attendees(id)
+          #raise NotImplementedError
+        end
       end
     end
   end
