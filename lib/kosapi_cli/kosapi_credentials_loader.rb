@@ -20,7 +20,7 @@ module KOSapiCLI
     end
 
     def credentials
-      return { client_id: @id, client_secret: @secret } if @if && @secret
+      return { client_id: @id, client_secret: @secret } if @id && @secret
       nil
     end
   end
