@@ -16,7 +16,6 @@ module KOSapiCLI
     KOSapiCLI::Commands.constants.each do |c|
       command = KOSapiCLI::Commands.const_get(c)
       next if (!command.is_a? Class) || (excluded_commands.include? c)
-      desc command.usage, command.description
       register(command,
                command.command_name,
                command.usage,
