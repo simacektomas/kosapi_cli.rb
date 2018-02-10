@@ -5,13 +5,32 @@ module KOSapiCLI
       # It provides fetch method that is common for
       # all resources in KOSapi.
       class BaseResource < Thor
+        def initialize(*args)
+          super
+          self.class.define_subresources
+        end
+
+        def self.subresources
+          []
+        end
+
+        def self.define_subresources
+          subresources.each do |subresource|
+            public_send("#{subresource}_desc")
+            public_send("#{subresource}_long_desc")
+            define_method(subresource) do |id|
+              raise NotImplementedError
+            end
+          end
+        end
+
         def self.subcommand_name
           name.split('::').last.downcase || 'default'
         end
 
         def self.usage
           base = name.split('::').last.downcase
-          "#{base} [SUBCOMMANDS]"
+          "#{base} [fetch|#{subresources.join('|')}]"
         end
 
         def self.description
