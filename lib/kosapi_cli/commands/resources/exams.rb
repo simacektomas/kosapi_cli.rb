@@ -1,21 +1,27 @@
 module KOSapiCLI
   module Commands
     module Resources
+      # Represents KOSapi exams resource
       class Exams < BaseResource
-        desc 'attendees ID', 'prints students registred for the exam specified by ID'
+        def self.subresources
+          ['attendees']
+        end
 
-        long_desc <<-LONGDESC
-          The attendees command will print out message with students registred
-          for an exam. The exam is specified with compulsory parametr ID.
+        def self.attendees_desc
+          desc 'attendees ID',
+               'prints students registred for the exam specified by ID'
+        end
 
-          `kosapi_cli resource exams attendees 18633` will print out students
-          registred for exam with id 18633 if such an exam exists.
+        def self.attendees_long_desc
+          long_desc <<-LONGDESC
+            The attendees command will print out message with students registred
+            for an exam. The exam is specified with compulsory parametr ID.
 
-          TODO example output.
-        LONGDESC
+            `kosapi_cli resource exams attendees 18633` will print out students
+            registred for exam with id 18633 if such an exam exists.
 
-        def attendees(id)
-          #raise NotImplementedError
+            TODO example output.
+          LONGDESC
         end
       end
     end
