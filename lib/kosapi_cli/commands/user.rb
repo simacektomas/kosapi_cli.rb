@@ -32,7 +32,7 @@ module KOSapiCLI
       LONGDESC
 
       def login
-        KOSapiCLI.login(options[:username], options[:password])
+        KOSapiCLI.login(options[:username], options[:password]) unless KOSapiCLI.initialize_token
       end
 
       desc 'logout', 'Remove created .env file if it exists.'
