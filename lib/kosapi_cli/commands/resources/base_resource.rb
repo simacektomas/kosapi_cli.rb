@@ -5,10 +5,15 @@ module KOSapiCLI
       # It provides fetch method that is common for
       # all resources in KOSapi.
       class BaseResource < Thor
-        def initialize(*args)
-          super
-          self.class.define_subresources
-        end
+        class_option :limit,
+                     aliases: ['-l'],
+                     type: :numeric,
+                     desc: 'Limit the number of entities in KOSapi response'
+
+        class_option :ofset,
+                     aliases: ['-o'],
+                     type: :numeric,
+                     desc: 'Change the ofset of the first entity in response'
 
         def self.subresources
           []
@@ -16,10 +21,18 @@ module KOSapiCLI
 
         def self.define_subresources
           subresources.each do |subresource|
-            public_send("#{subresource}_desc")
-            public_send("#{subresource}_long_desc")
+            desc public_send("#{subresource}_usage"),
+                 public_send("#{subresource}_desc")
+
+            long_desc public_send("#{subresource}_long_desc")
+
             define_method(subresource) do |id|
-              raise NotImplementedError
+              response = KOSapiCLI.query_kosapi(self.class.subcommand_name,
+                                                id,
+                                                subresource.to_s,
+                                                options[:limit],
+                                                options[:ofset],
+                                                nil)
             end
           end
         end
@@ -30,7 +43,7 @@ module KOSapiCLI
 
         def self.usage
           base = name.split('::').last.downcase
-          "#{base} [fetch|#{subresources.join('|')}]"
+          "#{base} [find|#{subresources.join('|')}]"
         end
 
         def self.description
@@ -40,24 +53,31 @@ module KOSapiCLI
         # Each resource class need to have at least
         # fetch method that will fetch resource
         # from KOSapi
-        desc('fetch [ID]',
+        desc('find [ID]',
              'prints exams if no ID specified, otherwise prints specified exam')
 
         long_desc <<-LONGDESC
-          The fetch command is common for all resources in KOSapiCLI.
+          The find command is common for all resources in KOSapiCLI.
           It will print out message with desired KOSapi entity or entities.
           There is one optional parameter ID. Ommiting this parameter will
           cause printing multiple entities at once. If you specify ID the
           entity with this id will be printed out.
 
-          `kosapi_cli resource <resource> fetch <id>` will print out
+          `kosapi_cli resource <resource> find <id>` will print out
           message with specified resource that has filled id.
 
           TODO exmaple
         LONGDESC
 
-        def fetch(id = nil)
-          raise NotImplementedError
+        def find(id = nil)
+          if KOSapiCLI.initialize_token
+            response = KOSapiCLI.query_kosapi(self.class.subcommand_name,
+                                              id,
+                                              nil,
+                                              options[:limit],
+                                              options[:ofset],
+                                              nil)
+          end
         end
       end
     end
