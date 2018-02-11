@@ -3,6 +3,18 @@ module KOSapiCLI
   singleton_class.class_eval do
     include Authentication
 
+    def method_missing(method, *args, &block)
+      if proxy.respond_to?(method)
+        proxy.send(method, *args, &block)
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      proxy.respond_to?(method_name, include_private)
+    end
+
     private
 
     def configure_client(token, id, secret)
@@ -34,6 +46,10 @@ module KOSapiCLI
 
     def config
       @config ||= Configuration.new
+    end
+
+    def proxy
+      @proxy ||= KOSapiClientProxy.new
     end
   end
 end
