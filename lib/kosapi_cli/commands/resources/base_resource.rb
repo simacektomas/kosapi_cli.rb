@@ -10,10 +10,10 @@ module KOSapiCLI
                      type: :numeric,
                      desc: 'Limit the number of entities in KOSapi response'
 
-        class_option :ofset,
+        class_option :offset,
                      aliases: ['-o'],
                      type: :numeric,
-                     desc: 'Change the ofset of the first entity in response'
+                     desc: 'Change the offset of the first entity in response'
 
         def self.subresources
           []
@@ -27,12 +27,15 @@ module KOSapiCLI
             long_desc public_send("#{subresource}_long_desc")
 
             define_method(subresource) do |id|
-              response = KOSapiCLI.query_kosapi(self.class.subcommand_name,
-                                                id,
-                                                subresource.to_s,
-                                                options[:limit],
-                                                options[:ofset],
-                                                nil)
+              if KOSapiCLI.initialize_token
+                KOSapiCLI.setup_resource self.class.subcommand_name
+                response = KOSapiCLI.query_kosapi(id,
+                                                  subresource.to_s,
+                                                  options[:limit],
+                                                  options[:offset],
+                                                  nil)
+                p response
+              end
             end
           end
         end
@@ -71,12 +74,13 @@ module KOSapiCLI
 
         def find(id = nil)
           if KOSapiCLI.initialize_token
-            response = KOSapiCLI.query_kosapi(self.class.subcommand_name,
-                                              id,
+            KOSapiCLI.setup_resource self.class.subcommand_name
+            response = KOSapiCLI.query_kosapi(id,
                                               nil,
                                               options[:limit],
-                                              options[:ofset],
+                                              options[:offset],
                                               nil)
+            p response
           end
         end
       end

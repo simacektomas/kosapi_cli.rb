@@ -15,13 +15,13 @@ module KOSapiCLI
     def query_kosapi(id = nil,
                      subresource = nil,
                      limit = nil,
-                     ofset = nil,
+                     offset = nil,
                      query = {})
       raise 'Setup resource befor calling query' unless @resource
       setup_id(id)
       setup_subresource(subresource)
       setup_limit(limit)
-      setup_ofset(ofset)
+      setup_offset(offset)
       setup_query(query)
       finalize
     end
@@ -36,8 +36,8 @@ module KOSapiCLI
       @resource.send(subresource) if subresource
     end
 
-    def setup_ofset(ofset)
-      @resource.ofset(ofset) if ofset
+    def setup_offset(offset)
+      @resource.offset(offset) if offset
     end
 
     def setup_limit(limit)
