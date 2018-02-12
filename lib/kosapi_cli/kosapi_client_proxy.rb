@@ -23,9 +23,9 @@ module KOSapiCLI
       @response.process_response(finalize)
     end
 
-    def parse_kosapi_exception(exception)
+    def parse_kosapi_exception(message)
       # There is : \n for some reason in message
-      xml = exception.message.split("\n")[1..-1].join("\n")
+      xml = message.split("\n")[1..-1].join("\n")
       dom = Nokogiri::XML(xml)
       hash = dom.root.element_children.each_with_object(Hash.new) do |e, h|
         h[e.name.to_sym] = e.content

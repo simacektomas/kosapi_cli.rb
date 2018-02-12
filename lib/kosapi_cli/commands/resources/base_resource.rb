@@ -99,7 +99,7 @@ module KOSapiCLI
               response = KOSapiCLI.send_request(options)
               puts response.send("to_#{options[:format]}")
             rescue OAuth2::Error => e
-              self.class.error_kosapi_exception(KOSapiCLI.parse_kosapi_exception(e),
+              self.class.error_kosapi_exception(KOSapiCLI.parse_kosapi_exception(e.message),
                                                 options[:verbose])
               exit(3)
             rescue RuntimeError
