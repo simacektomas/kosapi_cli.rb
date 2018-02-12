@@ -5,6 +5,8 @@ module KOSapiCLI
       # It provides fetch method that is common for
       # all resources in KOSapi.
       class BaseResource < Thor
+        extend KOSapiCLI::Commands::Output
+
         class_option :limit,
                      aliases: ['-l'],
                      type: :numeric,
@@ -14,6 +16,13 @@ module KOSapiCLI
                      aliases: ['-o'],
                      type: :numeric,
                      desc: 'Change the offset of the first entity in response'
+
+        class_option :format,
+                     aliases: ['-f'],
+                     type: :string,
+                     default: 'json',
+                     enum: ['json'],
+                     desc: 'Specify the output format of KOSapi response'
 
         def self.subresources
           []
@@ -27,15 +36,9 @@ module KOSapiCLI
             long_desc public_send("#{subresource}_long_desc")
 
             define_method(subresource) do |id|
-              if KOSapiCLI.initialize_token
-                KOSapiCLI.setup_resource self.class.subcommand_name
-                response = KOSapiCLI.query_kosapi(id,
-                                                  subresource.to_s,
-                                                  options[:limit],
-                                                  options[:offset],
-                                                  nil)
-                p response
-              end
+              options[:id] = id
+              options[:subresource] = subresource.to_s
+              process_cmd
             end
           end
         end
@@ -73,14 +76,28 @@ module KOSapiCLI
         LONGDESC
 
         def find(id = nil)
+          options[:id] = id
+          process_cmd
+        end
+
+        private
+
+        def process_cmd
           if KOSapiCLI.initialize_token
-            KOSapiCLI.setup_resource self.class.subcommand_name
-            response = KOSapiCLI.query_kosapi(id,
-                                              nil,
-                                              options[:limit],
-                                              options[:offset],
-                                              nil)
-            p response
+            begin
+              KOSapiCLI.setup_resource self.class.subcommand_name
+              response = KOSapiCLI.send_request(options)
+              puts response.send("to_#{options[:format]}")
+            rescue RuntimeError
+              self.class.error_bad_credentials(options[:verbose])
+              exit(1)
+            rescue OAuth2::Error
+              self.class.error_invalid_token(options[:verbose])
+              exit(2)
+            end
+          else
+            self.class.error_no_login(options[:verbose])
+            exit(3)
           end
         end
       end
