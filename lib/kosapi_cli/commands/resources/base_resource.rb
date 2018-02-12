@@ -24,6 +24,16 @@ module KOSapiCLI
                      enum: ['json'],
                      desc: 'Specify the output format of KOSapi response'
 
+        class_option :query,
+                     aliases: ['-r'],
+                     type: :string,
+                     desc: 'RSQL expresion that provide more detailed query'
+
+        class_option :xpartial,
+                     aliases: ['-x'],
+                     type: :string,
+                     desc: 'XPartial expresion that provide response filtering'
+
         def self.subresources
           []
         end
@@ -91,8 +101,9 @@ module KOSapiCLI
             rescue RuntimeError
               self.class.error_bad_credentials(options[:verbose])
               exit(1)
-            rescue OAuth2::Error
-              self.class.error_invalid_token(options[:verbose])
+            rescue OAuth2::Error => e
+              self.class.error_kosapi_exception(KOSapiCLI.parse_kosapi_exception(e),
+                                                options[:verbose])
               exit(2)
             end
           else
