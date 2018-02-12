@@ -2,37 +2,36 @@ module KOSapiCLI
   # This class is proxy for KOSapiClient.
   # It construts the request for KOSapi
   class KOSapiClientProxy
+    def self.parameters
+      %i[id subresource offset limit query]
+    end
+
     def initialize
       @client = KOSapiClient
-      @resource = nil
-      @response_formater = nil
+      @response = KOSapiCLI::KOSapiResponse.new
     end
 
     def setup_resource(resource)
       @resource = @client.send(resource)
     end
 
-    def query_kosapi(id = nil,
-                     subresource = nil,
-                     limit = nil,
-                     offset = nil,
-                     query = {})
-      raise 'Setup resource befor calling query' unless @resource
-      setup_id(id)
-      setup_subresource(subresource)
-      setup_limit(limit)
-      setup_offset(offset)
-      setup_query(query)
-      finalize
+    def send_request(options = {})
+      raise 'Setup resource before calling query' unless @resource
+      self.class.parameters.each do |prop|
+        send("setup_#{prop}", options[prop])
+      end
+      @response.process_response(finalize)
     end
 
     private
 
     def setup_id(id)
+      @id = true
       @resource.find(id)
     end
 
     def setup_subresource(subresource)
+      raise 'Setup id before calling subresource' unless @id
       @resource.send(subresource) if subresource
     end
 
