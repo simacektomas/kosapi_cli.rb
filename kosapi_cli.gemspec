@@ -37,5 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
 
   spec.add_dependency "thor", "~> 0.20"
-  spec.add_dependency "kosapi_client", "~>0.8"
+  spec.add_dependency "kosapi_client", "~> 0.8"
+  spec.add_dependency 'nokogiri'
 end

@@ -1,5 +1,7 @@
 require 'thor'
 
+require 'nokogiri'
+
 require 'yaml'
 require 'json'
 
