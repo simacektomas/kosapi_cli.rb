@@ -24,6 +24,13 @@ module KOSapiCLI
         STDERR.puts 'ERROR: Cannot find token in home dir or it is invalid.'
         STDERR.puts 'INFO: Run `kosapi_cli user login` to obtain new token.'
       end
+
+      def error_kosapi_exception(parameters, verbose = true)
+        STDERR.puts 'ERROR: KOSapi exception.'
+        parameters.each do |key, value|
+          STDERR.puts "#{key.upcase}: #{value}" if verbose
+        end
+      end
     end
   end
 end
