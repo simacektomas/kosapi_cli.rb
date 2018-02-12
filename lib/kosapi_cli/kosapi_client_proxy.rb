@@ -53,7 +53,11 @@ module KOSapiCLI
     end
 
     def setup_query(query)
-      @resource.query(query) if query && !query.empty?
+      @resource.query(query) if query
+    end
+
+    def setup_fields(xpartial)
+      @resource.fields(xpartial) if xpartial
     end
 
     def finalize

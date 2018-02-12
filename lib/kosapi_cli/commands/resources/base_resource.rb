@@ -29,7 +29,7 @@ module KOSapiCLI
                      type: :string,
                      desc: 'RSQL expresion that provide more detailed query'
 
-        class_option :xpartial,
+        class_option :fields,
                      aliases: ['-x'],
                      type: :string,
                      desc: 'XPartial expresion that provide response filtering'
@@ -98,17 +98,17 @@ module KOSapiCLI
               KOSapiCLI.setup_resource self.class.subcommand_name
               response = KOSapiCLI.send_request(options)
               puts response.send("to_#{options[:format]}")
-            rescue RuntimeError
-              self.class.error_bad_credentials(options[:verbose])
-              exit(1)
             rescue OAuth2::Error => e
               self.class.error_kosapi_exception(KOSapiCLI.parse_kosapi_exception(e),
                                                 options[:verbose])
-              exit(2)
+              exit(3)
+            rescue RuntimeError
+              self.class.error_bad_credentials(options[:verbose])
+              exit(4)
             end
           else
             self.class.error_no_login(options[:verbose])
-            exit(3)
+            exit(2)
           end
         end
       end
