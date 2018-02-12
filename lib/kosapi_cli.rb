@@ -1,7 +1,7 @@
 require 'thor'
-require 'thor/group'
 
 require 'yaml'
+require 'json'
 
 require 'kosapi_client'
 
@@ -14,4 +14,5 @@ require 'kosapi_cli/kosapi_cli'
 require 'kosapi_cli/kosapi_client_proxy'
 require 'kosapi_cli/kosapi_credentials_loader'
 require 'kosapi_cli/kosapi_token_loader'
+require 'kosapi_cli/kosapi_response'
 require 'kosapi_cli/version'
