@@ -2,18 +2,9 @@ module KOSapiCLI
   module Commands
     # This class will load all subcommands
     # for KOSapi resources
-    class Resource < Thor
-      class_option :rsql,
-                   aliases: '-r',
-                   desc: 'Specify RSQL command to more complex query.',
-                   type: :string
-
-      def self.exclude_commands
+    class Resource < BaseCommand
+      def self.excluded_resources
         [:BaseResource]
-      end
-
-      def self.subcommand_name
-        'resource'
       end
 
       def self.usage
@@ -21,12 +12,12 @@ module KOSapiCLI
       end
 
       def self.description
-        'desc'
+        'Specify resource of KOSapi that will be queried.'
       end
 
       KOSapiCLI::Commands::Resources.constants.each do |c|
         subcommand = KOSapiCLI::Commands::Resources.const_get(c)
-        next if (!subcommand.is_a? Class) || (exclude_commands.include? c)
+        next if (!subcommand.is_a? Class) || (excluded_resources.include? c)
         register(subcommand,
                  subcommand.subcommand_name,
                  subcommand.usage,
