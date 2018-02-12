@@ -15,6 +15,10 @@ module KOSapiCLI
       proxy.respond_to?(method_name, include_private)
     end
 
+    def proxy
+      @proxy ||= KOSapiClientProxy.new
+    end
+
     private
 
     def configure_client(token, id, secret)
@@ -46,10 +50,6 @@ module KOSapiCLI
 
     def config
       @config ||= Configuration.new
-    end
-
-    def proxy
-      @proxy ||= KOSapiClientProxy.new
     end
   end
 end
