@@ -23,6 +23,7 @@ RSpec.describe KOSapiCLI::Authentication do
   end
 
   describe '.logout' do
+    before(:each) { subject.logout }
     context '.env file does not exist' do
       it 'return false if file was not deleted' do
         expect(subject.logout).to be false
