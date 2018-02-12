@@ -2,6 +2,8 @@ module KOSapiCLI
   module Commands
     # Class that handles user authentication
     class User < BaseCommand
+      extend KOSapiCLI::Commands::Output
+
       def self.description
         '`user` command handles user login and logout'
       end
@@ -32,7 +34,16 @@ module KOSapiCLI
       LONGDESC
 
       def login
-        KOSapiCLI.login(options[:username], options[:password]) unless KOSapiCLI.initialize_token
+        begin
+          unless KOSapiCLI.initialize_token
+            self.class.invalid_token options[:verbose]
+            KOSapiCLI.login(options[:username], options[:password])
+          end
+        rescue OAuth2::Error
+          self.class.error_bad_credentials options[:verbose]
+          exit(1)
+        end
+        self.class.valid_token options[:verbose]
       end
 
       desc 'logout', 'Remove created .env file if it exists.'
