@@ -4,6 +4,7 @@ Dir['./spec/helpers/**/*.rb'].sort.each { |f| require f }
 
 RSpec.configure do |config|
   # Include helpers
+  config.include TokenHelpers
   config.include IOTestHelpers
   config.include FileTestHelpers
 end
