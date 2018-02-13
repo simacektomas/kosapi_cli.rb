@@ -1,11 +1,11 @@
+require 'spec_helper'
+
 RSpec.describe KOSapiCLI::Commands::User do
   let(:proxy) { KOSapiCLI.proxy }
   let(:config) { KOSapiCLI::Configuration.new }
   subject(:user) { KOSapiCLI::Commands::User.new }
 
-  it 'changes the default desription' do
-    expect(user.class.description).to_not eq user.class.superclass.description
-  end
+  it_behaves_like 'BaseCommand descendat', KOSapiCLI::Commands::User
 
   describe '#logout' do
     it 'calls KOSapiCLI logout' do

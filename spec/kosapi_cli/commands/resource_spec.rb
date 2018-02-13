@@ -1,13 +1,11 @@
 RSpec.describe KOSapiCLI::Commands::Resource do
   subject(:resource) { KOSapiCLI::Commands::Resource.new }
 
+  it_behaves_like 'BaseCommand descendat', KOSapiCLI::Commands::Resource
+
   it 'has excluded the BaseResource from subcommands' do
     expect((resource.class.excluded_resources.include? :BaseResource)).to\
       be true
-  end
-
-  it 'changes the command desription from default' do
-    expect(resource.class.description).to_not match(/CHANGE/)
   end
 
   it 'loads all resources from Resource module' do
