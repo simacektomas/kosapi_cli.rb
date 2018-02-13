@@ -5,6 +5,8 @@ require 'nokogiri'
 require 'yaml'
 require 'json'
 
+require 'kosapi_cli/underscore'
+
 require 'kosapi_client'
 
 require 'kosapi_cli/commands'
@@ -17,4 +19,5 @@ require 'kosapi_cli/kosapi_client_proxy'
 require 'kosapi_cli/kosapi_credentials_loader'
 require 'kosapi_cli/kosapi_token_loader'
 require 'kosapi_cli/kosapi_response'
+require 'kosapi_cli/underscore'
 require 'kosapi_cli/version'
