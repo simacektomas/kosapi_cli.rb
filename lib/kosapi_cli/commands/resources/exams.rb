@@ -3,6 +3,10 @@ module KOSapiCLI
     module Resources
       # Represents KOSapi exams resource
       class Exams < BaseResource
+        def self.description
+          'represents KOSapi Exams resources that can be queried'
+        end
+
         def self.subresources
           [:attendees]
         end
