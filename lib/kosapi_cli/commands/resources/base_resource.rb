@@ -54,11 +54,11 @@ module KOSapiCLI
         end
 
         def self.subcommand_name
-          name.split('::').last.downcase || 'default'
+          name.split('::').last.underscore || 'default'
         end
 
         def self.usage
-          base = name.split('::').last.downcase
+          base = subcommand_name
           "#{base} [find|#{subresources.join('|')}]"
         end
 
@@ -70,7 +70,7 @@ module KOSapiCLI
         # fetch method that will fetch resource
         # from KOSapi
         desc('find [ID]',
-             'prints exams if no ID specified, otherwise prints specified exam')
+             'prints entities if no ID specified, otherwise prints specified entity')
 
         long_desc <<-LONGDESC
           The find command is common for all resources in KOSapiCLI.

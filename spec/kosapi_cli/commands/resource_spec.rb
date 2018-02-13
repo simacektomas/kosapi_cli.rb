@@ -14,6 +14,6 @@ RSpec.describe KOSapiCLI::Commands::Resource do
       (resource.is_a? Class) &&
         (!KOSapiCLI::Commands::Resource.excluded_resources.include? const)
     end
-    expect(should.map { |i| i.to_s.downcase }).to eq resource.class.subcommands
+    expect(should.map { |i| i.to_s.underscore }).to eq resource.class.subcommands
   end
 end
