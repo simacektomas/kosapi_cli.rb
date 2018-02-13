@@ -30,7 +30,7 @@ shared_examples_for 'resource' do |resource|
 
     it 'corespond with class name' do
       expect(resource.subcommand_name).to eq\
-        resource.name.split('::').last.downcase
+        resource.name.split('::').last.underscore
     end
   end
 
