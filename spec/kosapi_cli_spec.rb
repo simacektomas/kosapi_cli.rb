@@ -7,6 +7,10 @@ RSpec.describe KOSapiCLI do
     expect(KOSapiCLI::VERSION).not_to be nil
   end
 
+  it 'it\'s singleton includes Authentication module' do
+    expect(KOSapiCLI.singleton_class.included_modules.include?(KOSapiCLI::Authentication)).to be true
+  end
+
   describe '.proxy' do
     it 'provide proxy instance via reader' do
       expect(KOSapiCLI.proxy).to eq @proxy
