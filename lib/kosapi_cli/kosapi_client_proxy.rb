@@ -3,7 +3,7 @@ module KOSapiCLI
   # It construts the request for KOSapi
   class KOSapiClientProxy
     def self.parameters
-      %i[id subresource offset limit query]
+      %i[id subresource offset limit query detail sem]
     end
 
     def initialize
@@ -58,6 +58,14 @@ module KOSapiCLI
 
     def setup_fields(xpartial)
       @resource.fields(xpartial) if xpartial
+    end
+
+    def setup_detail(detail)
+      @resource.detail(detail) if detail
+    end
+
+    def setup_sem(sem)
+      @resource.sem(sem) if sem && !sem.empty?
     end
 
     def finalize
