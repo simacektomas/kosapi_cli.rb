@@ -17,6 +17,8 @@ Gem::Specification.new do |spec|
   # to allow pushing to a single host or delete this section to allow pushing to any host.
 
   spec.files         = Dir['lib/**/*', '*.gemspec', 'LICENSE', 'README*']
+  spec.files        += Dir['man/man?/*.?']         # UNIX manpages
+  spec.files        += Dir['man/**/*.{html,css}']  # HTML manpages
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = '>= 2.0.0'
@@ -24,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_development_dependency 'md2man', '~> 5.0'
 
   spec.add_dependency "thor", "~> 0.20"
   spec.add_dependency "kosapi_client", "~> 0.8"
